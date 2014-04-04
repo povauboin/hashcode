@@ -2,9 +2,10 @@
 # encoding: utf-8
 
 matrix = [
-    [1, 0, 1],
-    [0, 1, 0],
-    [1, 1, 0],
+    [1, 0, 1, 1],
+    [0, 1, 0, 0],
+    [1, 1, 0, 1],
+    [1, 1, 0, 0],
 ]
 
 def readfile(filename):
@@ -18,26 +19,26 @@ def readfile(filename):
     input.close()
     return (n, m, matrix)
 
-def score_neighbors(matrix):
+def score_neighbors(matrix, S):
 
-    R = len(matrix)
-    C = len(matrix[0])
-    S = 0
+    N = len(matrix)
+    M = len(matrix[0])
 
     scores = []
     commands = []
 
-    for i in xrange(R):
+    for i in xrange(N):
         scores.append([])
-        for j in xrange(C):
+        for j in xrange(M):
             scores[i].append(0)
 
-    for i in xrange(S, R-S):
-        for j in xrange(S, C-S):
+    for i in xrange(S, N-S):
+        for j in xrange(S, M-S):
 
-            score = matrix[i][j]
-            for x in xrange(i-S,i+S):
-                for y in xrange(j-S,j+S):
+            score = 0
+            for x in xrange(i-S,i+S+1):
+                for y in xrange(j-S,j+S+1):
+                    print (x, y, matrix[x][y])
                     score += matrix[x][y]
 
             scores[i][j] = score
@@ -71,7 +72,7 @@ def rapport(liste, S):
 if __name__ == '__main__':
     # (n, m, matrix) = readfile('doodle.txt')
     # print n, m
-    scores, commands = score_neighbors(matrix)
+    scores, commands = score_neighbors(matrix, 1)
     print scores
 
     f = open('answer.txt', 'w')
