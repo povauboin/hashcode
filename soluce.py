@@ -52,7 +52,7 @@ def print_command(matrix):
     for i in xrange(N):
         for j in xrange(M):
 
-            if matrix[i][j] == 1:
+            if matrix[i][j] >= 5:
                 commands.append('PAINTSQ %s %s 0' % (i, j))
 
     return commands
@@ -78,12 +78,38 @@ def rapport(liste, S):
 
     return res
 
+def subsquare(r,c,s):
+    tmp = []
+    for i in range(r-s, r+s+1):
+        for j in range(c-s, c+s+1):
+            tmp.append(matrix[i][j])
+    return tmp
+
+def color(r,c,s):
+    for i in range(r-s, r+s+1):
+        for j in range(c-s, c+s+1):
+            colored[i][j] = 1
+
+
+
 if __name__ == '__main__':
     (n, m, matrix) = readfile('doodle.txt')
+    colored = [[0 for c in range(m)] for r in range(n)]
     # print n, m
-    # scores = score_neighbors(matrix, 0)
-    commands = print_command(matrix)
-    # print scores
+    operations = []
+    for s in range(2,-1,-1):
+        for r in range(s, n-s):
+            for c in range(s, m-s):
+                if not colored[r][c] and sum(subsquare(r,c,s))==(2*s+1)**2:
+                    color(r,c,s)
+                    operations.append([r,c,s])
+    commands = []
+    for (r,c,s) in operations:
+        commands.append('PAINTSQ %s %s %s' % (r,c,s))
+
+    # scores = score_neighbors(matrix, 1)
+    # commands = print_command(scores)
+    # # print scores
 
     ecriture(commands)
 
