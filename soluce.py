@@ -25,7 +25,6 @@ def score_neighbors(matrix, S):
     M = len(matrix[0])
 
     scores = []
-    commands = []
 
     for i in xrange(N):
         scores.append([])
@@ -38,21 +37,31 @@ def score_neighbors(matrix, S):
             score = 0
             for x in xrange(i-S,i+S+1):
                 for y in xrange(j-S,j+S+1):
-                    print (x, y, matrix[x][y])
+                    # print (x, y, matrix[x][y])
                     score += matrix[x][y]
 
             scores[i][j] = score
 
-            if matrix[i][j] == 1:
-                commands.append('PAINTSQ %s %s 1' % (i, j))
+    return scores
 
-    return scores, commands
+def print_command(matrix):
+    N = len(matrix)
+    M = len(matrix[0])
+
+    commands = []
+    for i in xrange(N):
+        for j in xrange(M):
+
+            if matrix[i][j] == 1:
+                commands.append('PAINTSQ %s %s 0' % (i, j))
+
+    return commands
 
 def ecriture(liste):
     fichier = open("fichier_res.txt","w")
     n = len(liste)
     liste.insert(0,str(n))
-    res = ', '.join(liste)
+    res = '\n'.join(liste)
     fichier.write(res)
 
     fichier.close()
@@ -70,12 +79,15 @@ def rapport(liste, S):
     return res
 
 if __name__ == '__main__':
-    # (n, m, matrix) = readfile('doodle.txt')
+    (n, m, matrix) = readfile('doodle.txt')
     # print n, m
-    scores, commands = score_neighbors(matrix, 1)
-    print scores
+    # scores = score_neighbors(matrix, 0)
+    commands = print_command(matrix)
+    # print scores
 
-    f = open('answer.txt', 'w')
-    f.write(str(len(commands)) + '\n')
-    f.write('\n'.join(commands))
-    f.close()
+    ecriture(commands)
+
+    # f = open('answer.txt', 'w')
+    # f.write(str(len(commands)) + '\n')
+    # f.write('\n'.join(commands))
+    # f.close()

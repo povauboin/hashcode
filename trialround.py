@@ -20,9 +20,9 @@ def rapport(liste, S):
     for i in xrange(N):
         for j in xrange(M):
             res[i][j] = (liste[i][j]*1.0)/n
-        
+
     return res
-    
+
 
 
 test = [[0,1,2,2,2,1,0],[0,1,2,8,2,1,0],[0,1,2,2,2,1,0]]
