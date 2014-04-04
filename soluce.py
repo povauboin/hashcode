@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import time
+
 matrix = [
     [1, 0, 1, 1],
     [0, 1, 0, 0],
@@ -96,18 +98,37 @@ if __name__ == '__main__':
     (n, m, matrix) = readfile('doodle.txt')
     colored = [[0 for c in range(m)] for r in range(n)]
     # print n, m
-    operations = []
-    for s in range(2,-1,-1):
-        for r in range(s, n-s):
-            for c in range(s, m-s):
+    commands = []
+    for s in range(21,0,-1):
+        print (s, time.ctime())
+        for r in range(s, n-s, s or 1):
+            for c in range(s, m-s, s or 1):
                 if not colored[r][c] and sum(subsquare(r,c,s))==(2*s+1)**2:
                     color(r,c,s)
-                    operations.append([r,c,s])
-    commands = []
-    for (r,c,s) in operations:
-        commands.append('PAINTSQ %s %s %s' % (r,c,s))
+                    commands.append('PAINTSQ %s %s %s' % (r,c,s))
+        print ('op: %s' % len(commands))
 
-    # scores = score_neighbors(matrix, 1)
+    s = 1
+    scores = score_neighbors(matrix, s)
+    for r in range(s, n-s, 1):
+        for c in range(s, m-s, 1):
+            if not colored[r][c] and sum(subsquare(r,c,s)) > (((2*s+1)**2 +1)/ 2):
+                color(r,c,s)
+                commands.append('PAINTSQ %s %s %s' % (r,c,s))
+                for x in xrange(r-s,r+s+1):
+                    for y in xrange(c-s,c+s+1):
+                        if matrix[x][y] == 0:
+                            commands.append('ERASECELL %s %s' % (r,c))
+    print ('op: %s' % len(commands))
+
+    s = 0
+    for r in range(s, n-s, s or 1):
+        for c in range(s, m-s, s or 1):
+            if not colored[r][c] and sum(subsquare(r,c,s))==(2*s+1)**2:
+                color(r,c,s)
+                commands.append('PAINTSQ %s %s %s' % (r,c,s))
+    print ('op: %s' % len(commands))
+
     # commands = print_command(scores)
     # # print scores
 
