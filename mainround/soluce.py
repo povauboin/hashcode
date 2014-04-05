@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from streetview import *
+from goo import *
 import random
 
 def create_answer(V):
@@ -94,7 +95,7 @@ def dijkstra(net, s, t):
 # print dijkstra(net=randNet(), s='0', t='5')
 
 # deplace une voiture de 1
-def deplace1V(cout,longueur, S, T, first, visited):
+def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
 
     chemin = [S]
     c = 0
@@ -115,7 +116,12 @@ def deplace1V(cout,longueur, S, T, first, visited):
     while c < T:
         if all(loop):
             notvisited = [node for node in range(N) if not visited[node]]
-            nextfirst = random.choice(notvisited)
+            print ('car_num', car_num)
+            notvisited_car = [node for node in notvisited if classes[node] == car_num]
+            if notvisited_car == []:
+                print ('all visited for this car')
+                notvisited_car = notvisited
+            nextfirst = random.choice(notvisited_car)
             path, t = dijkstra(cout, s, nextfirst)
             c += t
             for p in path:
@@ -158,6 +164,9 @@ if '__main__' == __name__:
     # T = 3
     # S = 0
 
+    classes = classer(coord, N)
+    # print classes
+
     print 'choosing path'
     # chemin =  deplace1V(cost,length,S,T)
     # print chemin
@@ -170,7 +179,7 @@ if '__main__' == __name__:
     # V = [[S, 4122, 7281, 2751] for i in range(C)]
     V = []
     for i in range(C):
-        (chemin,length) = deplace1V(cost,length,S,T, start[i], visited)
+        (chemin,length) = deplace1V(cost,length,S,T, start[i], visited, classes, i+1)
         V.append(chemin)
 
     print 'writing answer'
