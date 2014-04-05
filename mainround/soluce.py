@@ -15,23 +15,29 @@ def create_answer(V):
 def choix(s,cout,longueur, chemin):
     # n = len(cout[0])
 
-    max = 0
+    ratios = []
+
+    max_ratio = 0
     J = 0
     # for j in xrange(n):
     for j in cout[s].keys():
         ratio = float(longueur[s][j]) / cout[s][j]
+        ratios.append(ratio)
         # if longueur[s][j] == -1:
         #     continue
-        if ratio >= max: # and boucle(chemin):
+        if ratio >= max_ratio: # and boucle(chemin):
             J = j
-            max = ratio
+            max_ratio = ratio
+
+    print ('min ratio:', min(ratios))
+    print ('max ratio:', max(ratios))
 
     # if (cout[s][j] != -1):
-    longueur[s][J] /= 2
-    if longueur[s][J] < 0:
-        longueur[s][J] = 0
+    longueur[s][J] /= 1.85
+    # if longueur[s][J] < 0:
+    #     longueur[s][J] = 0
     if J in longueur and s in longueur[J]:
-        longueur[J][s] /= 2
+        longueur[J][s] /= 1.85
 
     return (J,cout[s][J],longueur)
 
