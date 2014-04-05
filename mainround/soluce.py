@@ -83,7 +83,7 @@ def dijkstra(net, s, t):
         if temp == s:
             rpath.append(temp)
             break
-    for j in range(len(rpath)-1,-1,-1):
+    for j in range(len(rpath)-2,-1,-1):
         path.append(rpath[j])
 
     return path, labels[t]
@@ -95,7 +95,7 @@ def dijkstra(net, s, t):
 # deplace une voiture de 1
 def deplace1V(cout,longueur, S, T, first, visited):
 
-    chemin = []
+    chemin = [S]
     c = 0
     s = S
 
@@ -148,7 +148,7 @@ if '__main__' == __name__:
     # C = 8
     # S = 4516
 
-    start = [1000, 2000, 140, 4000, 5000, 152, 79, 8000]
+    start = [1000, 250, 140, 4000, 5000, 152, 79, 8000]
 
     # V = [[S, 4122, 7281, 2751] for i in range(C)]
     V = []
