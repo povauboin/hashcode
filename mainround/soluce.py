@@ -27,7 +27,7 @@ def choix(s,cout,longueur):
             max = ratio
 
     # if (cout[s][j] != -1):
-    longueur[s][J] -= 10
+    longueur[s][J] /= 2
     if longueur[s][J] < 0:
         longueur[s][J] = 0
 
