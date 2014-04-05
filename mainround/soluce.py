@@ -12,7 +12,7 @@ def create_answer(V):
         for edge in V[i]:
             f.write('%s\n' % edge) # depart
 
-def choix(s,cout,longueur, chemin):
+def choix(s,cout,longueur, chemin, visited):
     # n = len(cout[0])
 
     ratios = []
@@ -93,7 +93,7 @@ def dijkstra(net, s, t):
 # print dijkstra(net=randNet(), s='0', t='5')
 
 # deplace une voiture de 1
-def deplace1V(cout,longueur, S, T, first):
+def deplace1V(cout,longueur, S, T, first, visited):
 
     chemin = []
     c = 0
@@ -108,9 +108,10 @@ def deplace1V(cout,longueur, S, T, first):
         s = p
 
     while c < T:
-        (r,t,longueur) = choix(s,cout,longueur, chemin)
+        (r,t,longueur) = choix(s,cout,longueur, chemin, visited)
         if (c + t) <= T:
             chemin.append(r)
+            visited[r] = 1
             s = r
         c += t
         # steps += 1
@@ -135,6 +136,8 @@ if '__main__' == __name__:
     print 'N, M, T, C, S'
     print N, M, T, C, S
 
+    visited = [0] * N
+
     # T = 3
     # S = 0
 
@@ -150,7 +153,7 @@ if '__main__' == __name__:
     # V = [[S, 4122, 7281, 2751] for i in range(C)]
     V = []
     for i in range(C):
-        (chemin,length) = deplace1V(cost,length,S,T, start[i])
+        (chemin,length) = deplace1V(cost,length,S,T, start[i], visited)
         V.append(chemin)
 
     print 'writing answer'
