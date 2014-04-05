@@ -11,7 +11,7 @@ def classer(coord,N):
              if(coord[i][1]<2.3363):
                 classe[i]=2;
              else:
-                if(coord[i][1]<2.365):
+                if(coord[i][1]<2.374):
                    classe[i]=3;
                 else:
                    classe[i]=4;
@@ -22,7 +22,7 @@ def classer(coord,N):
              if(coord[i][1]<2.3363):
                 classe[i]=6;
              else:
-                if(coord[i][1]<2.365):
+                if(coord[i][1]<2.374):
                    classe[i]=7;
                 else:
                    classe[i]=8;
