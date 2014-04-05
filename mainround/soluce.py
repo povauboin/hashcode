@@ -14,7 +14,7 @@ def create_answer(V):
         for edge in V[i]:
             f.write('%s\n' % edge) # depart
 
-def choix(s,cout,longueur, chemin, visited):
+def choix(s,cout,longueur, chemin, visited, classes, car_num):
     # n = len(cout[0])
 
     ratios = []
@@ -27,7 +27,8 @@ def choix(s,cout,longueur, chemin, visited):
         ratios.append(ratio)
         # if longueur[s][j] == -1:
         #     continue
-        if ratio >= max_ratio: # and boucle(chemin):
+        if (ratio >= max_ratio):
+            # if (classes[j] == car_num): # and boucle(chemin):
             J = j
             max_ratio = ratio
 
@@ -116,8 +117,15 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
     while c < T:
         if all(loop):
             notvisited = [node for node in range(N) if not visited[node]]
-            print ('car_num', car_num)
-            notvisited_car = [node for node in notvisited if classes[node] == car_num]
+            # print 'len notvisited', len(notvisited)
+            # print ('car_num', car_num)
+            # notvisited_car = [node for node in notvisited if (classes[node] == car_num)]
+            notvisited_car = []
+            for node in notvisited:
+                # print 'node', node
+                # print ('classe node', classes[node])
+                if (classes[node] == car_num):
+                    notvisited_car.append(node)
             if notvisited_car == []:
                 print ('all visited for this car')
                 notvisited_car = notvisited
@@ -129,13 +137,16 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
             s = p
             loop = [False] * 10
         else:
-            (r,t,longueur,ratio) = choix(s,cout,longueur, chemin, visited)
+            (r,t,longueur,ratio) = choix(s,cout,longueur, chemin, visited, classes, car_num)
+            counter += 1
+            if not classes[r] == car_num:
+                loop = [True] * 10
+            else:
+                loop[counter % 10] = (ratio < limit)
             if (c + t) <= T:
                 chemin.append(r)
                 visited[r] = 1
                 s = r
-            counter += 1
-            loop[counter % 10] = (ratio < limit)
         c += t
         # steps += 1
         # if steps >= 500:
@@ -165,7 +176,7 @@ if '__main__' == __name__:
     # S = 0
 
     classes = classer(coord, N)
-    # print classes
+    print classes
 
     print 'choosing path'
     # chemin =  deplace1V(cost,length,S,T)
@@ -174,7 +185,8 @@ if '__main__' == __name__:
     # C = 8
     # S = 4516
 
-    start = [1000, 250, 140, 4000, 5000, 152, 79, 8000]
+    # start = [1000, 250, 140, 4000, 5000, 152, 79, 8000]
+    start = [264, 202, 975, 301, 1016, 1112, 992, 999]
 
     # V = [[S, 4122, 7281, 2751] for i in range(C)]
     V = []
