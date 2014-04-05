@@ -13,14 +13,15 @@ def create_answer(V):
             f.write('%s\n' % edge) # depart
 
 def choix(s,cout,longueur):
-    n = len(cout[0])
+    # n = len(cout[0])
 
     max = 0
     J = 0
-    for j in xrange(n):
+    # for j in xrange(n):
+    for j in cout[s].keys():
         ratio = float(longueur[s][j]) / cout[s][j]
-        if longueur[s][j] == -1:
-            continue
+        # if longueur[s][j] == -1:
+        #     continue
         if ratio >= max:
             J = j
             max = ratio
@@ -29,7 +30,8 @@ def choix(s,cout,longueur):
     longueur[s][J] -= 10
     if longueur[s][J] < 0:
         longueur[s][J] = 0
-    return (J,cout[s][J])
+
+    return (J,cout[s][J],longueur)
 
 
 # deplace une voiture de 1
@@ -42,7 +44,7 @@ def deplace1V(cout,longueur, S, T):
     steps = 0
 
     while c < T:
-        (r,t) = choix(s,cout,longueur)
+        (r,t,longueur) = choix(s,cout,longueur)
         if (c + t) <= T:
             chemin.append(r)
             s = r
@@ -52,7 +54,7 @@ def deplace1V(cout,longueur, S, T):
         #     break
 
     print 'c', c
-    return chemin
+    return (chemin,longueur)
 
 if '__main__' == __name__:
 
@@ -73,14 +75,17 @@ if '__main__' == __name__:
     # S = 0
 
     print 'choosing path'
-    chemin =  deplace1V(cost,length,S,T)
+    # chemin =  deplace1V(cost,length,S,T)
     # print chemin
 
     # C = 8
     # S = 4516
 
     # V = [[S, 4122, 7281, 2751] for i in range(C)]
-    V = [chemin for i in range(C)]
+    V = []
+    for i in range(C):
+        (chemin,length) = deplace1V(cost,length,S,T)
+        V.append(chemin)
 
     print 'writing answer'
     create_answer(V)
