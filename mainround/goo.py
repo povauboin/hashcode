@@ -5,7 +5,7 @@ def classer(coord,N):
     classe=[0]*N;
     for i in range(0,N):
        if (coord[i][0]>48.8608): #c'est dans la clase 1 2 3 ou 4
-          if(coord[i][1]<2.0323):
+          if(coord[i][1]<2.3023):
              classe[i]=1;
           else:
              if(coord[i][1]<2.3363):
