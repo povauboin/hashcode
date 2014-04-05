@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from streetview import *
+import random
 
 def create_answer(V):
 
@@ -101,6 +102,9 @@ def deplace1V(cout,longueur, S, T, first, visited):
 
     steps = 0
 
+    limit = 1
+    loop = [False] * 10
+
     path,t = dijkstra(cout, S, first)
     c += t
     for p in path:
@@ -108,11 +112,20 @@ def deplace1V(cout,longueur, S, T, first, visited):
         s = p
 
     while c < T:
-        (r,t,longueur) = choix(s,cout,longueur, chemin, visited)
-        if (c + t) <= T:
-            chemin.append(r)
-            visited[r] = 1
-            s = r
+        if all(loop):
+            notvisited = [node for node in range(N) if not visited[node]]
+            nextfirst = random.choice(notvisited)
+            path, t = dijkstra(cout, s, nextfirst)
+            c += t
+            for p in path:
+                chemin.append(p)
+            s = p   
+        else:
+            (r,t,longueur) = choix(s,cout,longueur, chemin, visited)
+            if (c + t) <= T:
+                chemin.append(r)
+                visited[r] = 1
+                s = r
         c += t
         # steps += 1
         # if steps >= 500:
