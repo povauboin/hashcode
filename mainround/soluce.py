@@ -30,7 +30,7 @@ def choix(s,cout,longueur, chemin, visited):
             J = j
             max_ratio = ratio
 
-    print ('min ratio:', min(ratios))
+    # print ('min ratio:', min(ratios))
     print ('max ratio:', max(ratios))
 
     # if (cout[s][j] != -1):
@@ -40,7 +40,7 @@ def choix(s,cout,longueur, chemin, visited):
     if J in longueur and s in longueur[J]:
         longueur[J][s] /= 1.85
 
-    return (J,cout[s][J],longueur)
+    return (J,cout[s][J],longueur, max_ratio)
 
 # from http://stackoverflow.com/questions/4997851/python-dijkstra-algorithm
 def dijkstra(net, s, t):
@@ -104,6 +104,7 @@ def deplace1V(cout,longueur, S, T, first, visited):
 
     limit = 1
     loop = [False] * 10
+    counter = 0
 
     path,t = dijkstra(cout, S, first)
     c += t
@@ -119,13 +120,16 @@ def deplace1V(cout,longueur, S, T, first, visited):
             c += t
             for p in path:
                 chemin.append(p)
-            s = p   
+            s = p
+            loop = [False] * 10
         else:
-            (r,t,longueur) = choix(s,cout,longueur, chemin, visited)
+            (r,t,longueur,ratio) = choix(s,cout,longueur, chemin, visited)
             if (c + t) <= T:
                 chemin.append(r)
                 visited[r] = 1
                 s = r
+            counter += 1
+            loop[counter % 10] = (ratio < limit)
         c += t
         # steps += 1
         # if steps >= 500:
