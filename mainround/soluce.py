@@ -19,11 +19,16 @@ def choix(s,cout,longueur):
     J = 0
     for j in xrange(n):
         ratio = float(longueur[s][j]) / cout[s][j]
-        if ratio > max:
+        if longueur[s][j] == -1:
+            continue
+        if ratio >= max:
             J = j
             max = ratio
 
     # if (cout[s][j] != -1):
+    longueur[s][J] -= 10
+    if longueur[s][J] < 0:
+        longueur[s][J] = 0
     return (J,cout[s][J])
 
 
@@ -38,13 +43,15 @@ def deplace1V(cout,longueur, S, T):
 
     while c < T:
         (r,t) = choix(s,cout,longueur)
-        chemin.append(r)
+        if (c + t) <= T:
+            chemin.append(r)
+            s = r
         c += t
-        s = r
-        steps += 1
-        if steps >= 500:
-            break
+        # steps += 1
+        # if steps >= 500:
+        #     break
 
+    print 'c', c
     return chemin
 
 if '__main__' == __name__:
