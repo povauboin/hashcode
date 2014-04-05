@@ -7,7 +7,7 @@ import random
 
 def create_answer(V):
 
-    f = open('answer.txt', 'w')
+    f = open('answer3.txt', 'w')
     f.write('%s\n' % len(V))
     for i in range(len(V)):
         f.write('%s\n' % len(V[i])) # nb intersections visitees par ci
@@ -21,16 +21,30 @@ def choix(s,cout,longueur, chemin, visited, classes, car_num):
 
     max_ratio = 0
     J = 0
-    # for j in xrange(n):
-    for j in cout[s].keys():
+
+    # choose next node only from neighbors in car sector
+    neighbors = cout[s].keys()
+    neighbors_in_sector = [node for node in neighbors if classes[node] == car_num]
+    for j in neighbors_in_sector:
         ratio = float(longueur[s][j]) / cout[s][j]
+        # if (not classes[j] == car_num):
+        #     print ('increase ratio')
+        #     ratio = 0
         ratios.append(ratio)
         # if longueur[s][j] == -1:
         #     continue
         if (ratio >= max_ratio):
-            # if (classes[j] == car_num): # and boucle(chemin):
             J = j
             max_ratio = ratio
+
+    # if no neighbors is in sector
+    if ratios == []:
+        for j in cout[s].keys():
+            ratio = float(longueur[s][j]) / cout[s][j]
+            ratios.append(ratio)
+            if (ratio >= max_ratio):
+                J = j
+                max_ratio = ratio
 
     # print ('min ratio:', min(ratios))
     print ('max ratio:', max(ratios))
@@ -46,6 +60,7 @@ def choix(s,cout,longueur, chemin, visited, classes, car_num):
 
 # from http://stackoverflow.com/questions/4997851/python-dijkstra-algorithm
 def dijkstra(net, s, t):
+    print ('dijkstra')
     # sanity check
     if s == t:
         return "The start and terminal nodes are the same. Minimum distance is 0."
@@ -178,7 +193,7 @@ if '__main__' == __name__:
     # S = 0
 
     classes = classer(coord, N)
-    print classes
+    # print classes
 
     print 'choosing path'
     # chemin =  deplace1V(cost,length,S,T)
