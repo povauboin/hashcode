@@ -1,4 +1,6 @@
 def readfile(filename):
+    from collections import defaultdict
+    
     data = open(filename)
     line1 = data.readline()
     N, M, T, C, S = map(int, line1.rstrip('\n').split(' '))
@@ -9,8 +11,8 @@ def readfile(filename):
         (x, y) = tuple(map(float, line.rstrip('\n').split(' ')))
         coord.append((x, y))
     
-    cost = [[-1 for j in range(N)] for i in range(N)]
-    length = [[-1 for j in range(N)] for i in range(N)]
+    cost = defaultdict(defaultdict)
+    length = defaultdict(defaultdict)
     for k in range(M):
         line = data.readline()
         i, j, ways, streetcost, streetlength = map(int, line.rstrip('\n').split(' '))
