@@ -15,9 +15,16 @@ def create_answer(V):
 def choix(s,cout,longueur):
     n = len(cout[0])
 
+    max = 0
+    J = 0
     for j in xrange(n):
-        if (cout[s][j] != -1):
-            return (j,cout[s][j])
+        ratio = float(longueur[s][j]) / cout[s][j]
+        if ratio > max:
+            J = j
+            max = ratio
+
+    # if (cout[s][j] != -1):
+    return (J,cout[s][J])
 
 
 # deplace une voiture de 1
@@ -35,7 +42,7 @@ def deplace1V(cout,longueur, S, T):
         c += t
         s = r
         steps += 1
-        if steps >= 5:
+        if steps >= 500:
             break
 
     return chemin
@@ -59,7 +66,7 @@ if '__main__' == __name__:
     # S = 0
 
     print 'choosing path'
-    chemin =  deplace1V(cost,length,S,50)
+    chemin =  deplace1V(cost,length,S,T)
     # print chemin
 
     # C = 8
