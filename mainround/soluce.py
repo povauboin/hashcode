@@ -12,7 +12,7 @@ def create_answer(V):
         for edge in V[i]:
             f.write('%s\n' % edge) # depart
 
-def choix(s,cout,longueur):
+def choix(s,cout,longueur, chemin):
     # n = len(cout[0])
 
     max = 0
@@ -22,7 +22,7 @@ def choix(s,cout,longueur):
         ratio = float(longueur[s][j]) / cout[s][j]
         # if longueur[s][j] == -1:
         #     continue
-        if ratio >= max:
+        if ratio >= max: # and boucle(chemin):
             J = j
             max = ratio
 
@@ -30,6 +30,8 @@ def choix(s,cout,longueur):
     longueur[s][J] /= 2
     if longueur[s][J] < 0:
         longueur[s][J] = 0
+    if J in longueur and s in longueur[J]:
+        longueur[J][s] /= 2
 
     return (J,cout[s][J],longueur)
 
@@ -100,7 +102,7 @@ def deplace1V(cout,longueur, S, T, first):
         s = p
 
     while c < T:
-        (r,t,longueur) = choix(s,cout,longueur)
+        (r,t,longueur) = choix(s,cout,longueur, chemin)
         if (c + t) <= T:
             chemin.append(r)
             s = r
