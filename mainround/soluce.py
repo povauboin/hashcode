@@ -128,6 +128,7 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
                     notvisited_car.append(node)
             if notvisited_car == []:
                 print ('all visited for this car')
+                print 'car_num', car_num
                 notvisited_car = notvisited
             nextfirst = random.choice(notvisited_car)
             path, t = dijkstra(cout, s, nextfirst)
@@ -153,6 +154,7 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
         #     break
 
     print 'c', c
+    print 'car_num', car_num
     return (chemin,longueur)
 
 if '__main__' == __name__:
