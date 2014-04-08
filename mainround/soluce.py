@@ -17,15 +17,14 @@ def create_answer(V):
 def choix(s,cout,longueur, chemin, visited, classes, car_num):
     # n = len(cout[0])
 
-    ratios = []
-
     max_ratio = 0
     J = 0
 
-    # choose next node only from neighbors in car sector
+    choose next node only from neighbors in car sector
     neighbors = cout[s].keys()
     neighbors_in_sector = [node for node in neighbors if classes[node] == car_num]
-    for j in neighbors_in_sector:
+    if False:
+    # for j in neighbors_in_sector:
         ratio = float(longueur[s][j]) / cout[s][j]
         # if (not classes[j] == car_num):
         #     print ('increase ratio')
@@ -38,16 +37,15 @@ def choix(s,cout,longueur, chemin, visited, classes, car_num):
             max_ratio = ratio
 
     # if no neighbors is in sector
-    if ratios == []:
-        for j in cout[s].keys():
-            ratio = float(longueur[s][j]) / cout[s][j]
-            ratios.append(ratio)
-            if (ratio >= max_ratio):
-                J = j
-                max_ratio = ratio
+    for j in cout[s].keys():
+        ratio = float(longueur[s][j]) / cout[s][j]
+        # for k in cout[j].keys():
+        if (ratio >= max_ratio):
+            J = j
+            max_ratio = ratio
 
     # print ('min ratio:', min(ratios))
-    print ('max ratio:', max(ratios))
+    # print ('max ratio:', max(ratios))
 
     # if (cout[s][j] != -1):
     longueur[s][J] /= 1.85
@@ -130,7 +128,7 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
         s = p
 
     while c < T:
-        if all(loop):
+        if all(loop) and False:
             notvisited = [node for node in range(N) if not visited[node]]
             # print 'len notvisited', len(notvisited)
             # print ('car_num', car_num)
@@ -155,10 +153,10 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
         else:
             (r,t,longueur,ratio) = choix(s,cout,longueur, chemin, visited, classes, car_num)
             counter += 1
-            if not classes[r] == car_num:
-                loop = [True] * 10
-            else:
-                loop[counter % 10] = (ratio < limit)
+            # if not classes[r] == car_num:
+            #     loop = [True] * 10
+            # else:
+            loop[counter % 10] = (ratio < limit)
             if (c + t) <= T:
                 chemin.append(r)
                 visited[r] = 1
