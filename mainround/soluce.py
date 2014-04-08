@@ -156,7 +156,7 @@ def deplace1V(cout,longueur, S, T, first, visited, classes, car_num):
         s = p
 
     while c <= T:
-        (new_score, new_cost, new_path) = look_ahead(s, cout, longueur, [], [], [], 3)
+        (new_score, new_cost, new_path) = look_ahead(s, cout, longueur, [], [], [], 10)
         print (new_score, new_cost, new_path)
         for i in xrange(len(new_path)):
             # print ('add %s' % new_path[i])
